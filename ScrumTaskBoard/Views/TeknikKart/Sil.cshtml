@@ -1,0 +1,49 @@
+﻿@model ScrumTaskBoard.Models.TeknikKart
+@{
+    ViewBag.Title = "Teknik Kart Sil";
+}
+
+<h5 class="text-center mt-5">Bu kartı silmek istediğinize emin misiniz?</h5>
+<p class="text-muted text-center mb-5">
+    Bu kartı sildiğiniz taktirde, bu karta ait olan iş planları da silinecektir.
+</p>
+<dl class="row">
+    <dt class="col-md-3 text-right">Tarih : </dt>
+    <dd class="col-md-9">@Html.DisplayFor(x => x.tarih, new { @class = "form-control", id = "txtTarih" })</dd>
+
+    <dt class="col-md-3 text-right">Kart No : </dt>
+    <dd class="col-md-9">@Html.DisplayFor(x => x.teknikKart_Id, new { @class = "form-control", id = "txtDurum" })</dd>
+
+    <dt class="col-md-3 text-right">Proje Adı : </dt>
+    <dd class="col-md-9">@Html.DisplayFor(x => x.projeAdi, new { @class = "col-sm-10 form-control", id = "txtAreaYapilacakIs" })</dd>
+
+    <dt class="col-md-3 text-right">Teknik Uzman : </dt>
+    <dd class="col-md-9">@Html.DisplayFor(x => x.teknikUzmanAdı, new { @class = "col-sm-10 form-control", id = "txtAreaAciklama" })</dd>
+
+    <dt class="col-md-3 text-right">Tahmini Süre : </dt>
+    <dd class="col-md-9">@Html.DisplayFor(x => x.tahminiSure, new { @class = "col-sm-10 form-control", id = "txtAreaAciklama" })</dd>
+
+    <dt class="col-md-3 text-right">Gerçekleşen Süre : </dt>
+    <dd class="col-md-9">@Html.DisplayFor(x => x.gerceklesenSure, new { @class = "col-sm-10 form-control", id = "txtAreaAciklama" })</dd>
+
+    <dt class="col-md-3 text-right">İşin Açıklaması : </dt>
+    <dd class="col-md-9">@Html.DisplayFor(x => x.isinAciklamasi, new { @class = "col-sm-10 form-control", id = "txtAreaAciklama" })</dd>
+
+    <dt class="col-md-3 text-right">Notlar : </dt>
+    <dd class="col-md-9">@Html.DisplayFor(x => x.notlar, new { @class = "col-sm-10 form-control", id = "txtAreaAciklama" })</dd>
+</dl>
+<br />
+@using (Html.BeginForm())
+{
+    <input type="submit" value="Sil" class="btn btn-outline-danger" />
+    <a href="/Home/HomePage" class="btn btn-outline-secondary">Çıkış</a>
+
+    <div class="input-group mt-2">
+        @if (ViewBag.Result != null)
+        {
+            <div class="alert alert-@ViewBag.Status" role="alert">
+                @ViewBag.Result
+            </div>
+        }
+    </div>
+}

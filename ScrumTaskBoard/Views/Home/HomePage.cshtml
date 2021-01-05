@@ -1,0 +1,56 @@
+﻿@using ScrumTaskBoard.ViewModels.Home
+@model HomePageViewModel
+@{
+    ViewBag.Title = "Scrum Task Board";
+}
+<style>
+    #sortable tr:hover {
+        background-color: #17A8BC;
+        color: #fff;
+    }
+</style>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12 text-right mt-2">
+            @Html.ActionLink("Yeni Kart Ekle", "Yeni", "TeknikKart", null, new { @class = "btn btn-outline-primary", id = "btnKartEkle" })
+            @Html.ActionLink("Yeni İş Ekle", "Yeni", "Is", null, new { @class = "btn btn-outline-info", id = "btnIsEkle" })
+            <h5 class="text-left">Proje Başlıkları</h5>
+            <hr />
+        </div>
+    </div>
+    <div class="accordion" id="accordionExample">
+        @foreach (var kart in Model.TeknikKart)
+        {
+            <div class="card">
+                <div class="card-header" id=@("headingKart"+kart.teknikKart_Id)>
+                    <h2 class="mb-0">
+                        <div class="row">
+                            <div class="col-md-10">
+                                <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target=@("#collapse"+kart.teknikKart_Id) aria-expanded="true" aria-controls=@("collapse"+kart.teknikKart_Id)>
+                                    @(kart.teknikKart_Id + ". " +kart.projeAdi)
+                                </button>
+                            </div>
+                            <div class="col-md-2 text-right">
+                                @Html.ActionLink(" ", "Sil", "TeknikKart", new { teknikKartId = kart.teknikKart_Id }, new { @class = "fas fa-trash-alt btn btn-outline-danger", id = "teknikKartSil" + kart.teknikKart_Id })
+                                @Html.ActionLink(" ", "Duzenle", "TeknikKart", new { kartId = kart.teknikKart_Id }, new { @class = "far fa-caret-square-right btn btn-outline-secondary", id = "teknikKartDuzenle" + kart.teknikKart_Id })
+                            </div>
+                        </div>
+                    </h2>
+                </div>
+
+                <div id=@("collapse"+kart.teknikKart_Id) class="collapse" aria-labelledby=@("headingKart"+kart.teknikKart_Id) data-parent="#accordionExample">
+                    <div class="card-body">
+                        <h6>Projenin amacı :</h6>
+                        <p class="ml-1">@kart.isinAciklamasi</p>
+                        <h6 for="txtAreaNotlar">Teknik Uzman :</h6>
+                        <p class="ml-1">@kart.teknikUzmanAdı</p>
+                        <h6 for="txtAreaNotlar">Tarih :</h6>
+                        <p class="ml-1">@kart.tarih</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+

@@ -1,0 +1,93 @@
+﻿@model ScrumTaskBoard.Models.TeknikKart
+@{
+    ViewBag.Title = "Yeni Kart Ekle";
+}
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<script>
+    function isNumberKey(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+        return true;
+    }
+</script>
+@using (Html.BeginForm("Yeni","TeknikKart", FormMethod.Post, new { @class="mt-5" }))
+{
+    <div class="form-row">
+        <div class="col-md-3">
+            <h1>STB Project</h1>
+        </div>
+        <div class="col-md-5">
+            <h2 class="text-center" style="background-color:grey">TEKNİK KART</h2>
+        </div>
+        <div class="col" style="margin-left:100px;">
+            <div class="row">
+                <label for="txtTarih" class="col-sm-3 col-form-label">Tarih:</label>
+                <div class="col-sm-9">
+                    @Html.TextBoxFor(x => x.tarih, new { @class = "form-control", id = "txtTarih", required = "true", type="date" })
+                </div>
+            </div>
+            <div class="row">
+                <label for="txtKartNo" class="col-sm-4 col-form-label">Kart No:</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(x => x.teknikKart_Id, new { @class = "form-control", id = "txtKartNo", disabled = "true", required = "true" })
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-md-7">
+            <div class="form-group row">
+                <label for="txtProjeAdi" class="col-sm-3 col-form-label">Proje No/Adı:</label>
+                <div class="col-sm-9 mt-2">
+                    @Html.TextBoxFor(x => x.projeAdi, new { @class = "form-control", id = "txtProjeAdi", required = "true" })
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="txtTeknikUzmanAdi" class="col-sm-3 col-form-label">Teknik Uzman:</label>
+                <div class="col-sm-9 mt-2">
+                    @Html.TextBoxFor(x => x.teknikUzmanAdı, new { @class = "form-control", id = "txtTeknikUzmanAdi", required = "true" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="form-group row">
+                <label for="txtTahminiSure" class="col-sm-4 col-form-label">Tahmini Süre:</label>
+                <div class="col-sm-8 mt-2">
+                    @Html.TextBoxFor(x => x.tahminiSure, new { @class = "form-control", id = "txtTahminiSure", type = "text", min="1", onkeypress = "return isNumberKey(event)", required = "true" })
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="txtGerceklesenSure" class="col-sm-5 col-form-label">Gerçekleşen Süre:</label>
+                <div class="col-sm-7 mt-2">
+                    @Html.TextBoxFor(x => x.gerceklesenSure, new { @class = "form-control", id = "txtGerceklesenSure", type = "text", min = "1", onkeypress = "return isNumberKey(event)", required = "true" })
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="txtAreaIsAciklama">İşin Açıklaması:</label>
+        @Html.TextAreaFor(x => x.isinAciklamasi, new { @class = "col-md-12 form-control", id = "txtAreaIsAciklama", rows = "7", required = "true" })
+    </div>
+
+    <div class="form-group">
+        <label for="txtAreaNotlar">Notlar:</label>
+        @Html.TextAreaFor(x => x.notlar, new { @class = "col-md-12 form-control", id = "txtAreaNotlar", rows = "5", required = "true" })
+    </div>
+
+    <input type="submit" value="Kart Ekle" class="btn btn-primary" id="btnYeniKartEkle" />
+    <a href="/Home/HomePage" class="btn btn-secondary">Çıkış</a>
+
+    <div id="teknikKartAlert" class="input-group mt-2">
+        @if (ViewBag.Result != null)
+        {
+            <div class="alert alert-@ViewBag.Status" role="alert">
+                @ViewBag.Result
+            </div>
+        }
+    </div>
+
+}
+

@@ -1,0 +1,39 @@
+﻿@model ScrumTaskBoard.Models.Is
+@{
+    ViewBag.Title = "İş Sil";
+}
+
+
+@*@Html.HiddenFor(x=>x.isTakip_Id) // Html'den gelen Id saklamak için kullanılabilir.*@
+
+<h5 class="text-center mt-5 mb-5">Bu iş planını silmek istediğinize emin misiniz?</h5>
+<dl class="row">
+    <dt class="col-md-3 text-right">Tarih : </dt>
+    <dd class="col-md-9">@Html.DisplayFor(x => x.tarih, new { @class = "form-control", id = "txtTarih" })</dd>
+
+    <dt class="col-md-3 text-right">Durum : </dt>
+    <dd class="col-md-9">@Html.DisplayFor(x => x.durum, new { @class = "form-control", id = "txtDurum" })</dd>
+
+    <dt class="col-md-3 text-right">Yapulacak İş : </dt>
+    <dd class="col-md-9">@Html.DisplayFor(x => x.yapilacak_Is, new { @class = "col-sm-10 form-control", id = "txtAreaYapilacakIs" })</dd>
+
+    <dt class="col-md-3 text-right">Açıklama : </dt>
+    <dd class="col-md-9">@Html.DisplayFor(x => x.aciklama, new { @class = "col-sm-10 form-control", id = "txtAreaAciklama" })</dd>
+</dl>
+<br />
+@using (Html.BeginForm())
+{
+    <input type="submit" value="Sil" class="btn btn-outline-danger" />
+    <a href="/Home/HomePage" class="btn btn-outline-secondary">Çıkış</a>
+
+    <div class="input-group mt-2">
+        @if (ViewBag.Result != null)
+        {
+            <div class="alert alert-@ViewBag.Status" role="alert">
+                @ViewBag.Result
+            </div>
+        }
+    </div>
+}
+
+

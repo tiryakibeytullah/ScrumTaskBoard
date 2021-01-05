@@ -1,0 +1,235 @@
+﻿@model ScrumTaskBoard.Models.TeknikKart
+@{
+    ViewBag.Title = "Kart Düzenle";
+}
+<style>
+    #sortableYapilacak, #sortableYapiliyor, #sortableTamamlandi {
+        list-style-type: none;
+        margin: 0;
+        float: left;
+        margin-right: 10px;
+        background: #eee;
+        padding: 5px;
+        width: 350px;
+    }
+
+        #sortableYapilacak li, #sortableYapiliyor li, #sortableTamamlandi li {
+            margin: 5px;
+            padding: 5px;
+            width: 330px;
+        }
+
+        #sortableTamamlandi li {
+            background: #61BD4F;
+        }
+
+        #sortableYapiliyor li {
+            background: #ff8c00
+        }
+</style>
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+<script>
+    $(function () {
+        $("ul").sortable({
+            connectWith: "ul",
+            update: function (event, ui) {
+                var islerim = new Object();
+                islerim.isTakip_Id = $(ui.item).attr("data-id");
+                islerim.durum = $(ui.item).parent().attr("data-type");
+                //console.log("Sortable Id : " + islerim.durum + " Iş id : " + islerim.isTakip_Id)
+                if (islerim != null) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/TeknikKart/IsDuzenle",
+                        data: JSON.stringify(islerim),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (response) {
+                            if (response) {
+                                $("#loadingAlert").show(300);
+                            }
+                        },
+                        error: function (response) {
+                            console.log(response)
+                        }
+                    }).always(function () {
+                        $("#loadingAlert").hide(300);
+                    })
+                }
+            }
+        });
+
+        $("#sortableYapilacak,#sortableYapiliyor,#sortableTamamlandi").disableSelection();
+    });
+
+    function isNumberKey(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+        return true;
+    }
+
+    function gizle() {
+        document.getElementById("loadingAlert").style.visibility = "visible"
+    }
+</script>
+@using (Html.BeginForm("Duzenle", "TeknikKart", FormMethod.Post, new { @class = "mt-5" }))
+{
+    <div class="form-row">
+        <div class="col-md-3">
+            <h1>STB Project</h1>
+        </div>
+        <div class="col-md-5">
+            <h2 class="text-center" style="background-color:grey">TEKNİK KART</h2>
+        </div>
+        <div class="col" style="margin-left:100px;">
+            <div class="row">
+                <label for="txtTarih" class="col-sm-3 col-form-label">Tarih:</label>
+                <div class="col-sm-9">
+                    @Html.TextBoxFor(x => x.tarih, new { @class = "form-control", id = "txtTarih", name = "tarih", required = "true", type = "date" })
+                </div>
+            </div>
+            <div class="row">
+                <label for="txtKartNo" class="col-sm-4 col-form-label">Kart No:</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(x => x.teknikKart_Id, new { @class = "form-control", id = "txtKartNo", disabled = "true", type = "number" })
+                    @Html.TextBoxFor(x => x.teknikKart_Id, new { name = "teknikKart_Id", type = "hidden" })
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-md-7">
+            <div class="form-group row">
+                <label for="txtProjeAdi" class="col-sm-3 col-form-label">Proje No/Adı:</label>
+                <div class="col-sm-9 mt-2">
+                    @Html.TextBoxFor(x => x.projeAdi, new { @class = "form-control", id = "txtProjeAdi", name = "projeAdi", required = "true" })
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="txtTeknikUzmanAdi" class="col-sm-3 col-form-label">Teknik Uzman:</label>
+                <div class="col-sm-9 mt-2">
+                    @Html.TextBoxFor(x => x.teknikUzmanAdı, new { @class = "form-control", id = "txtTeknikUzmanAdi", name = "teknikUzmanAdı", required = "true" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="form-group row">
+                <label for="txtTahminiSure" class="col-sm-4 col-form-label">Tahmini Süre:</label>
+                <div class="col-sm-8 mt-2">
+                    @Html.TextBoxFor(x => x.tahminiSure, new { @class = "form-control", id = "txtTahminiSure", name = "tahminiSure", type = "text", min = "1", onkeypress = "return isNumberKey(event)", required = "true" })
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="txtGerceklesenSure" class="col-sm-5 col-form-label">Gerçekleşen Süre:</label>
+                <div class="col-sm-7 mt-2">
+                    @Html.TextBoxFor(x => x.gerceklesenSure, new { @class = "form-control", id = "txtGerceklesenSure", name = "gerceklesenSure", min = "1", type = "text", onkeypress = "return isNumberKey(event)", required = "true" })
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="txtAreaIsAciklama">İşin Açıklaması:</label>
+        @Html.TextAreaFor(x => x.isinAciklamasi, new { @class = "col-md-12 form-control", id = "txtAreaIsAciklama", name = "isinAciklamasi", rows = "7", required = "true" })
+    </div>
+
+    <div class="form-group">
+        <label for="txtAreaNotlar">Notlar:</label>
+        @Html.TextAreaFor(x => x.notlar, new { @class = "col-md-12 form-control", id = "txtAreaIsAciklama", name = "notlar", rows = "5", required = "true" })
+    </div>
+
+    <div class="form-row mb-4">
+        <div class="col-md-4">
+            <h5 class="text-center">Yapılacakalar</h5>
+            <hr />
+            <ul id="sortableYapilacak" data-type="1" class="list-group">
+                @foreach (var Is in Model.Is)
+                {
+                    if (Is.durum == 1)
+                    {
+                        <li class="list-group-item d-flex justify-content-between align-items-center" data-id="@Is.isTakip_Id">
+                            <div class="col-md-6 text-left">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-short" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z" />
+                                </svg>
+                                @Is.yapilacak_Is
+                            </div>
+                            <div class="col-md-6 text-right">
+                                @Html.ActionLink("Düzenle", "Duzenle", "Is", new { isId = @Is.isTakip_Id }, new { @class = "btn btn-outline-success btn-sm", id = "isDuzenleId" + Is.isTakip_Id })
+                                @Html.ActionLink("Sil", "Sil", "Is", new { isId = @Is.isTakip_Id }, new { @class = "btn btn-outline-danger btn-sm ", id = "isId" + Is.isTakip_Id })
+                            </div>
+                        </li>
+                    }
+                }
+            </ul>
+        </div>
+        <div class="col-md-4">
+            <h5 class="text-center">Yapılıyor</h5>
+            <hr />
+            <ul id="sortableYapiliyor" data-type="2" class="list-group">
+                @foreach (var Is in Model.Is)
+                {
+                    if (Is.durum == 2)
+                    {
+                        <li class="list-group-item d-flex justify-content-between align-items-center" data-id="@Is.isTakip_Id">
+                            <div class="col-md-6 text-left">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-short" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z" />
+                                </svg>
+                                @Is.yapilacak_Is
+                            </div>
+                            <div class="col-md-6 text-right">
+                                @Html.ActionLink("Düzenle", "Duzenle", "Is", new { isId = @Is.isTakip_Id }, new { @class = "btn btn-outline-success btn-sm", id = "isDuzenleId" + Is.isTakip_Id })
+                                @Html.ActionLink("Sil", "Sil", "Is", new { isId = @Is.isTakip_Id }, new { @class = "btn btn-outline-danger btn-sm ", id = "isId" + Is.isTakip_Id })
+                            </div>
+                        </li>
+                    }
+                }
+            </ul>
+        </div>
+        <div class="col-md-4">
+            <h5 class="text-center">Tamamlandı</h5>
+            <hr />
+            <ul id="sortableTamamlandi" data-type="3" class="list-group">
+                @foreach (var Is in Model.Is)
+                {
+                    if (Is.durum == 3)
+                    {
+                        <li class="list-group-item d-flex justify-content-between align-items-center" data-id="@Is.isTakip_Id">
+                            <div class="col-md-6 text-left">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-short" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z" />
+                                </svg>
+                                @Is.yapilacak_Is
+                            </div>
+                            <div class="col-md-6 text-right">
+                                @Html.ActionLink("Düzenle", "Duzenle", "Is", new { isId = @Is.isTakip_Id }, new { @class = "btn btn-outline-success btn-sm", id = "isDuzenleId" + Is.isTakip_Id })
+                                @Html.ActionLink("Sil", "Sil", "Is", new { isId = @Is.isTakip_Id }, new { @class = "btn btn-outline-danger btn-sm ", id = "isId" + Is.isTakip_Id })
+                            </div>
+                        </li>
+                    }
+                }
+            </ul>
+        </div>
+    </div>
+    <div id="loadingAlert" class="input-group mt-2" style="display:none;">
+        <div class="alert alert-warning" role="alert">
+            Güncelleniyor..
+        </div>
+    </div>
+    <input type="submit" id="btnKartDuzenle" value="Kartı düzenle" class="btn btn-primary" />
+    <a href="/Home/HomePage" class="btn btn-secondary">Çıkış</a>
+    <div id="teknikKartDuzenleAlert" class="input-group mt-2">
+        @if (ViewBag.Result != null)
+        {
+            <div class="alert alert-@ViewBag.Status" role="alert">
+                @ViewBag.Result
+            </div>
+        }
+    </div>
+
+}
+

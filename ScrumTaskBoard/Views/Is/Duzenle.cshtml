@@ -1,0 +1,45 @@
+﻿@model ScrumTaskBoard.Models.Is
+@{
+    ViewBag.Title = "Duzenle";
+}
+@using (Html.BeginForm())
+{
+    <h3 class="text-center mt-5 mb-5">İş Düzenle</h3>
+
+    <div class="form-group row">
+        <label for="txtTarih" class="col-sm-2 col-form-label">Tarih</label>
+        <div class="col-sm-10">
+            @Html.TextBoxFor(x => x.tarih, new { @class = "form-control", id = "txtTarih", placeholder = "xx.xx.xxxx", required = "true", type = "date" })
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="ddlDurum" class="col-sm-2 col-form-label">Durum</label>
+        <div class="col-sm-10">
+            @Html.DropDownListFor(x => x.durum, (List<SelectListItem>)ViewBag.durumlar, new { @class = "form-control", id = "ddlDurum", required = "true" })
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="txtAreaYapilacakIs" class="col-sm-2 col-form-label">Yapılacak iş</label>
+        <div class="col-sm-10">
+            @Html.TextAreaFor(x => x.yapilacak_Is, new { @class = "col-sm-10 form-control", id = "txtAreaYapilacakIs", rows = "4", required = "true" })
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="txtAreaAciklama" class="col-sm-2 col-form-label">Açıklama</label>
+        <div class="col-sm-10">
+            @Html.TextAreaFor(x => x.aciklama, new { @class = "col-sm-10 form-control", id = "txtAreaAciklama", rows = "4", required = "true" })
+        </div>
+    </div>
+    <br />
+    <input type="submit" value="Düzenle" class="btn btn-outline-primary" />
+    <a href="/Home/HomePage" class="btn btn-outline-secondary">Çıkış</a>
+    <div class="input-group mt-2">
+        @if (ViewBag.Result != null)
+        {
+            <div class="alert alert-@ViewBag.Status" role="alert">
+                @ViewBag.Result
+            </div>
+        }
+    </div>
+}
+
