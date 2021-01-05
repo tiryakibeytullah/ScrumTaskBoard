@@ -1,4 +1,4 @@
-                                            Scrum Task Board /w [Habil Yadigar](https://github.com/habilyadigar)
+                                            Scrum Task Board /w Habil Yadigar
 
 > **Home Page** (`Kullanıcının eklediği kartların ana sayfada görünümü `)
 
