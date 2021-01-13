@@ -26,9 +26,9 @@ namespace ScrumTaskBoardUnitTest
             // Ana sayfaya giriş yaptıktan sonra, kart ekleme butonun tıklayarak gerekli alanlar doldurulur ve kart eklenir. Kart ekleme sonucu sayfanın alt kısmında bir adet alert belirir. Bu işlem başarılır ise alert'in mesajı 'Kart ekleme işlemi gerçekleşmiştir.' olacaktır. Aksi taktirde alert'in mesajı 'Kart ekleme işleminde hata oluştu.'ile yanıt verecektir. Bu testte eklenen kartın doğru cevap vermediği kontrol edilmektedir.
             SiteyeGiris();
             driver.FindElement(By.Id("btnKartEkle")).Click();
-            driver.FindElement(By.Id("txtTarih")).SendKeys("2.01.2021");
-            driver.FindElement(By.Id("txtProjeAdi")).SendKeys("Selenium Deneme-2 Proje");
-            driver.FindElement(By.Id("txtTeknikUzmanAdi")).SendKeys("Habil Yadigar");
+            driver.FindElement(By.Id("txtTarih")).SendKeys("13.01.2021");
+            driver.FindElement(By.Id("txtProjeAdi")).SendKeys("Selenium Deneme-2 Fatih Proje");
+            driver.FindElement(By.Id("txtTeknikUzmanAdi")).SendKeys("Fatih Yadigar");
             driver.FindElement(By.Id("txtTahminiSure")).SendKeys("10");
             driver.FindElement(By.Id("txtGerceklesenSure")).SendKeys("5");
             driver.FindElement(By.Id("txtAreaIsAciklama")).SendKeys("Selenium Açıklama 2");

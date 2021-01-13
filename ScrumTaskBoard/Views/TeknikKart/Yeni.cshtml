@@ -10,6 +10,14 @@
             return false;
         return true;
     }
+    $(document).ready(function () {
+        $('#txtAreaIsAciklama').on("input", function () {
+            var isUzunlugu = $(this).val().length;
+            var sure = isUzunlugu / 3;
+            $("#txtTahminiSure").val(Math.ceil(sure));
+            $("#txtTahminiSure2").val(Math.ceil(sure));
+        });
+    });
 </script>
 @using (Html.BeginForm("Yeni","TeknikKart", FormMethod.Post, new { @class="mt-5" }))
 {
@@ -55,7 +63,9 @@
             <div class="form-group row">
                 <label for="txtTahminiSure" class="col-sm-4 col-form-label">Tahmini Süre:</label>
                 <div class="col-sm-8 mt-2">
-                    @Html.TextBoxFor(x => x.tahminiSure, new { @class = "form-control", id = "txtTahminiSure", type = "text", min="1", onkeypress = "return isNumberKey(event)", required = "true" })
+                    <input type="text" class="form-control" id="txtTahminiSure" min="1" disabled onkeypress="return isNumberKey(event)" />
+                    @*@Html.TextBoxFor(x => x.tahminiSure, new { @class = "form-control", id = "txtTahminiSure", type = "text", min = "1", disabled = "true", onkeypress = "return isNumberKey(event)"})*@
+                    @Html.HiddenFor(x=>x.tahminiSure, new { @id="txtTahminiSure2" })
                 </div>
             </div>
             <div class="form-group row">
