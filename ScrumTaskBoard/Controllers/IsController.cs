@@ -27,7 +27,7 @@ namespace ScrumTaskBoard.Controllers
                      Text = kart.teknikKart_Id + " - " + kart.projeAdi + " / " + kart.teknikUzmanAdı,
                      Value = kart.teknikKart_Id.ToString()
                  }).ToList();
-
+           
             TempData["kartlar"] = kartList;
             ViewBag.kartlar = kartList;
             #endregion

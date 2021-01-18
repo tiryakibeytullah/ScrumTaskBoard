@@ -59,7 +59,13 @@ namespace ScrumTaskBoard.Models.Managers
 
             Durum durumEkle = new Durum();
             durumEkle.DurumBilgisi = "Yapılacak";
+            context.Durum.Add(durumEkle);
+            context.SaveChanges();
+
             durumEkle.DurumBilgisi = "Yapılıyor";
+            context.Durum.Add(durumEkle);
+            context.SaveChanges();
+
             durumEkle.DurumBilgisi = "Tamamlandı";
             context.Durum.Add(durumEkle);
 
